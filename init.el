@@ -344,23 +344,6 @@ Version 2015-10-01"
 (global-set-key (kbd "C-0") 'xah-forward-right-bracket)
 (global-set-key (kbd "C-8") 'xah-goto-matching-bracket)
 
-;; blamer
-(use-package blamer
-  :ensure t
-  :defer 20
-  :custom
-  (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
-  :custom-face
-  (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
-                    :height 111
-                    :italic t)))
-  :config
-  (global-blamer-mode -1))
-
-(blamer-mode -1)
-
 ;; ef-themes
 ;;(setq ef-themes-file "~/.emacs.d/ef_themes.el")
 ;;(load ef-themes-file)
