@@ -52,8 +52,18 @@
   (forward-word)
   (backward-word)
   )
+(defun scroll-up-one-line()
+  "Scroll up one line."
+  (interactive)
+  (scroll-up 1))
+(defun scroll-down-one-line()
+  "Scroll down one line."
+  (interactive)
+  (scroll-down 1))
 (add-to-list 'load-path "~/.emacs.d/open-newline")
 (require 'open-newline)
+(global-set-key (kbd "<down>") 'scroll-up-one-line)
+(global-set-key (kbd "<up>") 'scroll-down-one-line)
 (global-set-key (kbd "M-n") #'open-newline-below)
 (global-set-key (kbd "M-p") #'open-newline-above)
 (global-set-key (kbd "M-f") 'vimforward)
