@@ -84,6 +84,7 @@
 (global-set-key (kbd "C-M-p") #'open-newline-above)
 (global-set-key (kbd "M-f") 'vimforward)
 (global-set-key (kbd "M-b") #'subword-backward)
+(global-set-key (kbd "M-e") #'subword-right)
 (add-hook 'org-mode-hook 'nolinum)
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
