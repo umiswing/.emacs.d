@@ -51,7 +51,7 @@
  '(mini-modeline-face-attr '(:background unspecified))
  '(org-src-block-faces 'nil)
  '(package-selected-packages
-   '(dot-mode evil lsp-pyright valign diff-hl modus-themes elfeed orderless ef-themes rainbow-delimiters vertico consult find-file-in-project docker-tramp magit rime lsp-ui yasnippet helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode))
+   '(beacon dot-mode evil lsp-pyright valign diff-hl modus-themes elfeed orderless ef-themes rainbow-delimiters vertico consult find-file-in-project docker-tramp magit rime lsp-ui yasnippet helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode))
  '(pdf-view-midnight-colors '("#ffffff" . "#100f10"))
  '(sublimity-mode t)
  '(vc-annotate-background nil)
