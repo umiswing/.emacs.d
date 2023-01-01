@@ -107,6 +107,50 @@
 	(if (> syntax-move-point subword-move-point)
 	    (skip-syntax-backward (string (char-syntax (char-before))))
 	  (subword-backward))))
+(defun lsp-find-definition-other-window()
+  (interactive)
+  (setq src (buffer-name))
+  (lsp-find-definition)
+  (if (not (one-window-p 'visible))
+      (delete-other-windows))
+  (split-window-horizontally)
+  (switch-to-buffer src))
+(defun xah-goto-matching-bracket ()
+  "Move cursor to the matching bracket.
+If cursor is not on a bracket, call `backward-up-list'.
+The list of brackets to jump to is defined by `xah-left-brackets' and `xah-right-brackets'.
+
+URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
+Version: 2016-11-22"
+  (interactive)
+  (if (nth 3 (syntax-ppss))
+      (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)
+    (cond
+     ((eq (char-after) ?\") (forward-sexp))
+     ((eq (char-before) ?\") (backward-sexp ))
+     ((looking-at (regexp-opt xah-left-brackets))
+      (forward-sexp))
+     ((looking-back (regexp-opt xah-right-brackets) (max (- (point) 1) 1))
+      (backward-sexp))
+     (t (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)))))
+
+;; move cursor to bracket by xah lee
+(defun xah-backward-left-bracket ()
+  "Move cursor to the previous occurrence of left bracket.
+The list of brackets to jump to is defined by `xah-left-brackets'.
+URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
+Version 2015-10-01"
+  (interactive)
+  (re-search-backward (regexp-opt xah-left-brackets) nil t))
+
+(defun xah-forward-right-bracket ()
+  "Move cursor to the next occurrence of right bracket.
+The list of brackets to jump to is defined by `xah-right-brackets'.
+URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
+Version 2015-10-01"
+  (interactive)
+  (re-search-forward (regexp-opt xah-right-brackets) nil t))
+
 
 (add-to-list 'load-path "~/.emacs.d/open-newline")
 (require 'open-newline)
@@ -134,7 +178,6 @@
 (global-set-key (kbd "M-f") 'block-forward)
 (global-set-key (kbd "M-b") 'block-backward)
 (global-set-key (kbd "M-e") #'subword-right)
-(add-hook 'org-mode-hook 'nolinum)
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
@@ -143,9 +186,17 @@
 (global-set-key (kbd "C-M-d") 'scroll-other-window-down-one-line)
 (global-set-key (kbd "C-M-l") 'recenter-top-bottom-other-window)
 (global-set-key (kbd "C-x C-M-f") 'find-file-other-window)
+(global-set-key (kbd "C-,") 'lsp-find-definition)
+(global-set-key (kbd "C-M-,") 'lsp-find-definition-other-window)
+(global-set-key (kbd "C-x w") 'elfeed)
+(global-set-key (kbd "C-9") 'xah-backward-left-bracket)
+(global-set-key (kbd "C-0") 'xah-forward-right-bracket)
+(global-set-key (kbd "C-8") 'xah-goto-matching-bracket)
+
 (setq org-log-done t)
 (setq org-agenda-files '("~/org/gtd"))
 (add-hook 'org-mode-hook #'valign-mode)
+(add-hook 'org-mode-hook 'nolinum)
 
 ;;(require 'color-theme-sanityinc-tomorrow)
 ;;(color-theme-sanityinc-tomorrow-night)
@@ -157,7 +208,6 @@
 (setq elfeed-feeds '("https://protesilaos.com/master.xml"
 		     "http://xahlee.info/emacs/emacs/blog.xml"
 		     "http://xahlee.info/comp/blog.xml"))
-(global-set-key (kbd "C-x w") 'elfeed)
 
 (use-package rime
   :custom
@@ -175,7 +225,6 @@
 (add-hook 'python-mode-hook 'lsp)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
-(global-set-key (kbd "C-,") 'lsp-find-definition)
 ;;(setenv "PYTHONPATH" "~/miniconda3/envs/pytorch/bin")
 ;;(setq lsp-pyls-server-command "/home/wsm/miniconda3/envs/pytorch/bin/pylsp")
 ;;(setq lsp-clients-python-library-directories "/home/wsm/miniconda3/envs/pytorch
@@ -358,45 +407,8 @@
   (append xah-left-brackets xah-right-brackets)
   "List of left and right bracket chars. Each element is a string.")
 
-(defun xah-goto-matching-bracket ()
-  "Move cursor to the matching bracket.
-If cursor is not on a bracket, call `backward-up-list'.
-The list of brackets to jump to is defined by `xah-left-brackets' and `xah-right-brackets'.
 
-URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
-Version: 2016-11-22"
-  (interactive)
-  (if (nth 3 (syntax-ppss))
-      (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)
-    (cond
-     ((eq (char-after) ?\") (forward-sexp))
-     ((eq (char-before) ?\") (backward-sexp ))
-     ((looking-at (regexp-opt xah-left-brackets))
-      (forward-sexp))
-     ((looking-back (regexp-opt xah-right-brackets) (max (- (point) 1) 1))
-      (backward-sexp))
-     (t (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)))))
 
-;; move cursor to bracket by xah lee
-(defun xah-backward-left-bracket ()
-  "Move cursor to the previous occurrence of left bracket.
-The list of brackets to jump to is defined by `xah-left-brackets'.
-URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
-Version 2015-10-01"
-  (interactive)
-  (re-search-backward (regexp-opt xah-left-brackets) nil t))
-
-(defun xah-forward-right-bracket ()
-  "Move cursor to the next occurrence of right bracket.
-The list of brackets to jump to is defined by `xah-right-brackets'.
-URL `http://xahlee.info/emacs/emacs/emacs_navigating_keys_for_brackets.html'
-Version 2015-10-01"
-  (interactive)
-  (re-search-forward (regexp-opt xah-right-brackets) nil t))
-
-(global-set-key (kbd "C-9") 'xah-backward-left-bracket)
-(global-set-key (kbd "C-0") 'xah-forward-right-bracket)
-(global-set-key (kbd "C-8") 'xah-goto-matching-bracket)
 
 ;; ef-themes
 ;;(setq ef-themes-file "~/.emacs.d/ef_themes.el")
@@ -415,7 +427,6 @@ Version 2015-10-01"
 (global-diff-hl-mode)
 
 ;; others
-
 ;; make backup to a designated dir, mirroring the full path
 (defun xah-backup-nested-dir-file-path (Fpath)
   "Return a new file path and create dirs.
