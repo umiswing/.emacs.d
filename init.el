@@ -516,3 +516,9 @@ version 2022-06-09"
   "Change the way to gdb exit."
   ad-do-it
   (set-window-configuration global-config-editing))
+
+
+;; recentf
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
