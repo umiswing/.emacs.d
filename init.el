@@ -131,6 +131,24 @@
       (split-window-right))
   (switch-to-buffer-other-window dst_buffer)
   (switch-to-buffer-other-window src_buffer)))
+(defun umi-consult-recent-file-other-window()
+  (interactive)
+  (setq src_buffer (buffer-name))
+  (if (one-window-p 'visible)
+      (progn
+	(split-window-right)
+	(setq one_flag t)))
+  (unwind-protect
+      (progn
+	(other-window 1)
+	(call-interactively 'consult-recent-file)
+	(setq dst_buffer (buffer-name))
+	(switch-to-buffer-other-window src_buffer)
+	(if (equal src_buffer dst_buffer)
+	    ()	 
+	  (setq one_flag nil)))
+    (if one_flag
+	(delete-other-windows))))
 (defun xah-goto-matching-bracket ()
   "Move cursor to the matching bracket.
 If cursor is not on a bracket, call `backward-up-list'.
@@ -208,6 +226,8 @@ Version 2015-10-01"
 (global-set-key (kbd "M-9") 'xah-backward-left-bracket)
 (global-set-key (kbd "M-0") 'xah-forward-right-bracket)
 (global-set-key (kbd "M-8") 'xah-goto-matching-bracket)
+(global-set-key (kbd "C-x C-r") #'consult-recent-file)
+(global-set-key (kbd "C-x C-M-r") 'umi-consult-recent-file-other-window)
 
 (setq org-log-done t)
 (setq org-agenda-files '("~/org/gtd"))
