@@ -81,32 +81,43 @@
   (scroll-other-window-down 1))
 (defun block-forward()
   (interactive)
-      (let* ((syntax-move-point
-            (save-excursion
-              (skip-syntax-forward (string (char-syntax (char-after))))
-              (point)
-              ))
-           (subword-move-point
-            (save-excursion
-              (subword-forward)
-              (point))))
-	(if (< syntax-move-point subword-move-point)
-	    (skip-syntax-forward (string (char-syntax (char-after))))
-	  (subword-forward))))
+  (setq src-point (point))
+  (let* ((syntax-move-point
+          (save-excursion
+            (skip-syntax-forward (string (char-syntax (char-after))))
+            (point)
+            ))
+         (subword-move-point
+          (save-excursion
+            (subword-forward)
+            (point))))
+    (if (< syntax-move-point subword-move-point)
+	     (if (equal syntax-move-point src-point)
+		 (forward-char)
+	       (skip-syntax-forward (string (char-syntax (char-after)))))
+	(if (equal subword-move-point src-point)
+	    (forward-char)
+	  (subword-forward)))))
 (defun block-backward()
   (interactive)
-      (let* ((syntax-move-point
-            (save-excursion
-              (skip-syntax-backward (string (char-syntax (char-before))))
-              (point)
-              ))
-           (subword-move-point
-            (save-excursion
-              (subword-backward)
-              (point))))
-	(if (> syntax-move-point subword-move-point)
-	    (skip-syntax-backward (string (char-syntax (char-before))))
-	  (subword-backward))))
+  (setq src-point (point))
+  (let* ((syntax-move-point
+          (save-excursion
+            (skip-syntax-backward (string (char-syntax (char-before))))
+            (point)
+            ))
+         (subword-move-point
+          (save-excursion
+            (subword-backward)
+            (point))))
+    (if (> syntax-move-point subword-move-point)
+	(if (equal syntax-move-point src-point)
+	    (backward-char)
+	  (skip-syntax-backward (string (char-syntax (char-before)))))
+      (if (equal subword-move-point src-point)
+	  (backward-char)
+	(subword-backward)))))
+
 (defun lsp-find-definition-other-window()
   (interactive)
   (setq src_buffer (buffer-name))
