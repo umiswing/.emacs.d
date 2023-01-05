@@ -44,7 +44,11 @@
   )
 (defun dev()
   (interactive)
-  (find-file "~/org/gtd/dev_tools.org")
+  (find-file "~/org/dev_tools.org")
+  )
+(defun work()
+  (interactive)
+  (find-file "~/org/gtd/work.org")
   )
 (defun vimforward()
   (interactive)
@@ -321,6 +325,9 @@ Version 2015-10-01"
             (lambda () (local-set-key (kbd "TAB") #'lsp-format-region)))
   (add-hook 'lsp-mode-hook
 	    (lambda () (c-toggle-electric-state -1)))
+  (add-hook 'lsp-mode-hook
+	    (lambda () (progn (setq lsp-ui-doc-show-with-mouse nil)
+			      (setq lsp-ui-doc-show-with-cursor nil))))
   (require 'dap-cpptools)
   (yas-global-mode))
 
@@ -460,12 +467,12 @@ Version 2015-10-01"
 
 
 ;; ef-themes
-;;(setq ef-themes-file "~/.emacs.d/ef_themes.el")
-;;(load ef-themes-file)
+(setq ef-themes-file "~/.emacs.d/ef_themes.el")
+(load ef-themes-file)
 
 ;; modus-themes
-(setq modus-themes-file "~/.emacs.d/modus_themes.el")
-(load modus-themes-file)
+;;(setq modus-themes-file "~/.emacs.d/modus_themes.el")
+;;(load modus-themes-file)
 ;; demap
 
 

@@ -6,7 +6,7 @@
 ;; can specify them in `ef-themes-to-toggle' and then invoke the command
 ;; `ef-themes-toggle'.  All the themes are included in the variable
 ;; `ef-themes-collection'.
-(setq ef-themes-to-toggle '(ef-tritanopia-light ef-winter))
+;; (setq ef-themes-to-toggle '(ef-summer ef-winter))
 
 (setq ef-themes-headings ; read the manual's entry or the doc string
       '((0 . (variable-pitch light 1.9))
@@ -34,7 +34,7 @@
 (load-theme 'ef-summer :no-confirm)
 
 ;; OR use this to load the theme which also calls `ef-themes-post-load-hook':
-(ef-themes-select 'ef-summer)
+;;(ef-themes-select 'ef-summer)
 
 ;; The themes we provide are recorded in the `ef-themes-dark-themes',
 ;; `ef-themes-light-themes'.
