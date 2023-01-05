@@ -467,12 +467,30 @@ Version 2015-10-01"
 
 
 ;; ef-themes
-(setq ef-themes-file "~/.emacs.d/ef_themes.el")
-(load ef-themes-file)
+;;(setq ef-themes-file "~/.emacs.d/ef_themes.el")
+;;(load ef-themes-file)
 
 ;; modus-themes
 ;;(setq modus-themes-file "~/.emacs.d/modus_themes.el")
 ;;(load modus-themes-file)
+(modus-themes-select 'modus-vivendi)
+;; toggle themes
+(defun themes()
+    (interactive)
+    ;; Disable all other themes to avoid awkward blending:
+    (mapc #'disable-theme custom-enabled-themes)
+    (if (or (equal (get 'umi-themes-toggle 'state) 0) (equal (get 'umi-themes-toggle 'state) nil))
+	(progn
+	  (load "~/.emacs.d/ef_themes.el")
+	  (put 'umi-themes-toggle 'state 1))
+      (if (equal (get 'umi-themes-toggle 'state) 1)
+	  (progn
+	    (modus-themes-select 'modus-vivendi)
+	    (put 'umi-themes-toggle 'state 2))
+	(if (equal (get 'umi-themes-toggle 'state) 2)
+	    (progn
+	      (modus-themes-select 'modus-operandi)
+	      (put 'umi-themes-toggle 'state 0))))))
 ;; demap
 
 
