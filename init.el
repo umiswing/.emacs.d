@@ -475,28 +475,29 @@ Version 2015-10-01"
 ;;(load modus-themes-file)
 ;;(modus-themes-select 'modus-vivendi)
 (mapc #'disable-theme custom-enabled-themes)
+;(modus-themes-select 'modus-operandi)
 (load-theme 'vscode-dark-plus t)
 ;; toggle themes
 (defun themes()
     (interactive)
     ;; Disable all other themes to avoid awkward blending:
     (mapc #'disable-theme custom-enabled-themes)
-    (if (or (equal (get 'umi-themes-toggle 'state) 0) (equal (get 'umi-themes-toggle 'state) nil))
+    (if (or (equal (get 'themes 'state) 0) (equal (get 'themes 'state) nil))
 	(progn
 	  (load "~/.emacs.d/ef_themes.el")
-	  (put 'umi-themes-toggle 'state 1))
-      (if (equal (get 'umi-themes-toggle 'state) 1)
+	  (put 'themes 'state 1))
+      (if (equal (get 'themes 'state) 1)
 	  (progn
 	    (modus-themes-select 'modus-vivendi)
-	    (put 'umi-themes-toggle 'state 2))
-	(if (equal (get 'umi-themes-toggle 'state) 2)
+	    (put 'themes 'state 2))
+	(if (equal (get 'themes 'state) 2)
 	    (progn
 	      (modus-themes-select 'modus-operandi)
-	      (put 'umi-themes-toggle 'state 3))
-	  (if (equal (get 'umi-themes-toggle 'state) 3)
+	      (put 'themes 'state 3))
+	  (if (equal (get 'themes 'state) 3)
 	      (progn
 		(load-theme 'vscode-dark-plus t)
-		(put 'umi-themes-toggle 'state 0)))))))
+		(put 'themes 'state 0)))))))
 ;; demap
 
 
