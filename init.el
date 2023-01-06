@@ -85,7 +85,6 @@
   (scroll-other-window-down 1))
 (defun block-forward()
   (interactive)
-  (setq src-point (point))
   (let* ((syntax-move-point
           (save-excursion
             (skip-syntax-forward (string (char-syntax (char-after))))
@@ -94,7 +93,8 @@
          (subword-move-point
           (save-excursion
             (subword-forward)
-            (point))))
+            (point)))
+	 (src-point (point)))
     (if (< syntax-move-point subword-move-point)
 	     (if (equal syntax-move-point src-point)
 		 (forward-char)
@@ -104,7 +104,6 @@
 	  (subword-forward)))))
 (defun block-backward()
   (interactive)
-  (setq src-point (point))
   (let* ((syntax-move-point
           (save-excursion
             (skip-syntax-backward (string (char-syntax (char-before))))
@@ -113,7 +112,8 @@
          (subword-move-point
           (save-excursion
             (subword-backward)
-            (point))))
+            (point)))
+	 (src-point (point)))
     (if (> syntax-move-point subword-move-point)
 	(if (equal syntax-move-point src-point)
 	    (backward-char)
@@ -473,7 +473,9 @@ Version 2015-10-01"
 ;; modus-themes
 ;;(setq modus-themes-file "~/.emacs.d/modus_themes.el")
 ;;(load modus-themes-file)
-(modus-themes-select 'modus-vivendi)
+;;(modus-themes-select 'modus-vivendi)
+(mapc #'disable-theme custom-enabled-themes)
+(load-theme 'vscode-dark-plus t)
 ;; toggle themes
 (defun themes()
     (interactive)
@@ -490,7 +492,11 @@ Version 2015-10-01"
 	(if (equal (get 'umi-themes-toggle 'state) 2)
 	    (progn
 	      (modus-themes-select 'modus-operandi)
-	      (put 'umi-themes-toggle 'state 0))))))
+	      (put 'umi-themes-toggle 'state 3))
+	  (if (equal (get 'umi-themes-toggle 'state) 3)
+	      (progn
+		(load-theme 'vscode-dark-plus t)
+		(put 'umi-themes-toggle 'state 0)))))))
 ;; demap
 
 

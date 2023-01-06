@@ -12,7 +12,7 @@
  '(beacon-color "#cc6666")
  '(chart-face-color-list
    '("#b52c2c" "#4fd100" "#f1e00a" "#2fafef" "#bf94fe" "#47dfea" "#702020" "#007800" "#b08600" "#1f2f8f" "#5f509f" "#00808f"))
- '(custom-enabled-themes '(modus-operandi))
+ '(custom-enabled-themes nil)
  '(custom-safe-themes
    '("53585ce64a33d02c31284cd7c2a624f379d232b27c4c56c6d822eff5d3ba7625" "63df1d9126e997cd7f6ef5f7dd61312b0f65bcb18974e199e82d0e72b8576612" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "7dc296b80df1b29bfc4062d1a66ee91efb462d6a7a934955e94e786394d80b71" "3199be8536de4a8300eaf9ce6d864a35aa802088c0925e944e2b74a574c68fd0" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))
  '(exwm-floating-border-color "#646464")
@@ -53,7 +53,7 @@
    '("/home/wsm/org/gtd/learn.org" "/home/wsm/org/gtd/personal.org" "/home/wsm/org/gtd/school.org" "/home/wsm/org/gtd/work.org") t)
  '(org-src-block-faces 'nil)
  '(package-selected-packages
-   '(modus-themes beacon dot-mode evil lsp-pyright valign diff-hl elfeed orderless ef-themes rainbow-delimiters vertico consult find-file-in-project docker-tramp magit rime lsp-ui yasnippet helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode))
+   '(vscode-dark-plus-theme modus-themes beacon dot-mode evil lsp-pyright valign diff-hl elfeed orderless ef-themes rainbow-delimiters vertico consult find-file-in-project docker-tramp magit rime lsp-ui yasnippet helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode))
  '(pdf-view-midnight-colors '("#ffffff" . "#100f10"))
  '(rcirc-colors
    '(modus-themes-fg-red modus-themes-fg-green modus-themes-fg-blue modus-themes-fg-yellow modus-themes-fg-magenta modus-themes-fg-cyan modus-themes-fg-red-warmer modus-themes-fg-green-warmer modus-themes-fg-blue-warmer modus-themes-fg-yellow-warmer modus-themes-fg-magenta-warmer modus-themes-fg-cyan-warmer modus-themes-fg-red-cooler modus-themes-fg-green-cooler modus-themes-fg-blue-cooler modus-themes-fg-yellow-cooler modus-themes-fg-magenta-cooler modus-themes-fg-cyan-cooler modus-themes-fg-red-faint modus-themes-fg-green-faint modus-themes-fg-blue-faint modus-themes-fg-yellow-faint modus-themes-fg-magenta-faint modus-themes-fg-cyan-faint modus-themes-fg-red-intense modus-themes-fg-green-intense modus-themes-fg-blue-intense modus-themes-fg-yellow-intense modus-themes-fg-magenta-intense modus-themes-fg-cyan-intense))
