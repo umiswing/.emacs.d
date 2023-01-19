@@ -22,6 +22,10 @@
   (interactive)
   (find-file "~/.emacs.d/init.el")
   )
+(defun someday()
+  (interactive)
+  (find-file "~/org/gtd/someday.org")
+  )
 (defun update()
   (interactive)
   (load-file "~/.emacs.d/init.el")
@@ -37,18 +41,6 @@
 (defun note()
   (interactive)
   (find-file "~/org/note.org")
-  )
-(defun learn()
-  (interactive)
-  (find-file "~/org/gtd/learn.org")
-  )
-(defun dev()
-  (interactive)
-  (find-file "~/org/dev_tools.org")
-  )
-(defun work()
-  (interactive)
-  (find-file "~/org/gtd/work.org")
   )
 (defun vimforward()
   (interactive)
@@ -240,6 +232,9 @@ Version 2015-10-01"
 (global-set-key (kbd "C-,") 'lsp-find-definition)
 (global-set-key (kbd "C-M-,") 'lsp-find-definition-other-window)
 (global-set-key (kbd "C-x w") 'elfeed)
+(global-set-key (kbd "C-9") 'xah-backward-left-bracket)
+(global-set-key (kbd "C-0") 'xah-forward-right-bracket)
+(global-set-key (kbd "C-8") 'xah-goto-matching-bracket)
 (global-set-key (kbd "M-9") 'xah-backward-left-bracket)
 (global-set-key (kbd "M-0") 'xah-forward-right-bracket)
 (global-set-key (kbd "M-8") 'xah-goto-matching-bracket)
@@ -247,7 +242,39 @@ Version 2015-10-01"
 (global-set-key (kbd "C-x C-M-r") 'umi-consult-recent-file-other-window)
 
 (setq org-log-done t)
-(setq org-agenda-files '("~/org/gtd"))
+(setq org-agenda-files '("~/org/gtd/inbox.org"
+                         "~/org/gtd/gtd.org"
+                         "~/org/gtd/tickler.org"))
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline "~/org/gtd/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/org/gtd/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
+(setq org-refile-targets '(("~/org/gtd/gtd.org" :maxlevel . 3)
+                           ("~/org/gtd/someday.org" :level . 1)
+                           ("~/org/gtd/tickler.org" :maxlevel . 2)))
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-agenda-custom-commands 
+      '(("o" "paddle" tags-todo "paddle"
+         ((org-agenda-overriding-header "Paddle")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
+		  
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
 (add-hook 'org-mode-hook #'valign-mode)
 (add-hook 'org-mode-hook 'nolinum)
 
@@ -275,6 +302,7 @@ Version 2015-10-01"
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 (add-hook 'cuda-mode-hook 'lsp)
+(add-hook 'lua-mode-hook 'lsp)
 (add-hook 'python-mode-hook 'lsp)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
@@ -463,20 +491,15 @@ Version 2015-10-01"
   (append xah-left-brackets xah-right-brackets)
   "List of left and right bracket chars. Each element is a string.")
 
-
-
-
-;; ef-themes
-;;(setq ef-themes-file "~/.emacs.d/ef_themes.el")
-;;(load ef-themes-file)
-
-;; modus-themes
-;;(setq modus-themes-file "~/.emacs.d/modus_themes.el")
-;;(load modus-themes-file)
-;;(modus-themes-select 'modus-vivendi)
 (mapc #'disable-theme custom-enabled-themes)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/catppuccin-theme")
+(load-theme 'catppuccin t)
+;(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
+;(catppuccin-reload)
+;(modus-themes-select 'modus-vivendi)
 ;(modus-themes-select 'modus-operandi)
-(load-theme 'vscode-dark-plus t)
+;(load-theme 'vscode-dark-plus t)
+;(load "~/.emacs.d/ef_themes.el")
 ;; toggle themes
 (defun themes()
     (interactive)
@@ -497,7 +520,11 @@ Version 2015-10-01"
 	  (if (equal (get 'themes 'state) 3)
 	      (progn
 		(load-theme 'vscode-dark-plus t)
-		(put 'themes 'state 0)))))))
+		(put 'themes 'state 4))
+	    (if (equal (get 'themes 'state) 4)
+		(progn
+		  (load-theme 'catppuccin t)
+		  (put 'themes 'state 0))))))))
 ;; demap
 
 
@@ -587,3 +614,7 @@ version 2022-06-09"
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (setq recentf-max-saved-items 25)
+
+
+;; multiple-cursors
+(require 'multiple-cursors)
