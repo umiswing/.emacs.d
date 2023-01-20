@@ -38,10 +38,6 @@
   (interactive)
   (find-file "~/org/blog.org")
   )
-(defun note()
-  (interactive)
-  (find-file "~/org/note.org")
-  )
 (defun vimforward()
   (interactive)
   (subword-forward)
@@ -618,3 +614,34 @@ version 2022-06-09"
 
 ;; multiple-cursors
 (require 'multiple-cursors)
+
+; org-roam
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory "~/RoamNotes/")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today)
+	 :map org-mode-map
+	 ("C-M-i"   . completion-at-point))
+  :config
+    (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+;; deft
+(use-package deft
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory org-roam-directory))
