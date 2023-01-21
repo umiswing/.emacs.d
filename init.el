@@ -583,9 +583,9 @@ version 2022-06-09"
   :bind ("C-M-i" . company-complete))
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
-	       '(
-		 '((c-mode c++-mode cuda-mode) . ("/home/ubuntu/clangd"))
-		 '(python-mode . ("pylsp"))))
+		 '((c-mode c++-mode cuda-mode) . ("clangd")))
+  (add-to-list 'eglot-server-programs
+	       '(python-mode . ("pylsp")))
   (global-company-mode))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
