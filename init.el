@@ -110,11 +110,11 @@
 	  (backward-char)
 	(subword-backward)))))
 
-(defun lsp-find-definition-other-window()
+(defun xref-find-definitions-other-window()
   (interactive)
   (setq src_buffer (buffer-name))
   (setq src_cur (point))
-  (lsp-find-definition)
+  (xref-find-definitions())
   (setq dst_buffer (buffer-name))
   (setq dst_cur (point))
   (if (and (equal src_buffer dst_buffer) (equal src_cur dst_cur))
@@ -199,8 +199,13 @@ Version 2015-10-01"
 (require 'move-text)
 (add-to-list 'load-path "~/.emacs.d/duplicate-line")
 (require 'duplicate-line)
-(require 'dot-mode)
-(global-dot-mode t)
+(use-package dot-mode
+  :bind
+  (("C-," . dot-mode-execute)
+   ("C-." . nil)))
+
+  
+;(global-dot-mode t)
 (beacon-mode 1)
 (global-set-key (kbd "C-<up>") #'duplicate-line-or-region-above)
 (global-set-key (kbd "C-<down>") #'duplicate-line-or-region-below)
@@ -225,8 +230,7 @@ Version 2015-10-01"
 (global-set-key (kbd "C-M-l") 'recenter-top-bottom-other-window)
 (global-set-key (kbd "C-x C-M-f") 'find-file-other-window)
 (global-set-key (kbd "C-x C-M-b") 'umi-switch-to-buffer-other-window)
-(global-set-key (kbd "C-,") 'lsp-find-definition)
-(global-set-key (kbd "C-M-,") 'lsp-find-definition-other-window)
+(global-set-key (kbd "C-M-.") 'xref-find-definitions-other-window)
 (global-set-key (kbd "C-x w") 'elfeed)
 (global-set-key (kbd "C-9") 'xah-backward-left-bracket)
 (global-set-key (kbd "C-0") 'xah-forward-right-bracket)
@@ -290,78 +294,6 @@ Version 2015-10-01"
   (default-input-method "rime"))
 (setq rime-user-data-dir "~/.config/fcitx/rime")
 (setq rime-show-candidate 'posframe)
-
-;; lsp
-;(setq lsp-keymap-prefix "C-c l")
-(lsp-treemacs-sync-mode 1)
-(which-key-mode)
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
-(add-hook 'cuda-mode-hook 'lsp)
-(add-hook 'lua-mode-hook 'lsp)
-(add-hook 'python-mode-hook 'lsp)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
-;;(setenv "PYTHONPATH" "~/miniconda3/envs/pytorch/bin")
-;;(setq lsp-pyls-server-command "/home/wsm/miniconda3/envs/pytorch/bin/pylsp")
-;;(setq lsp-clients-python-library-directories "/home/wsm/miniconda3/envs/pytorch
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
-
-(setq lsp-pyright-venv-path "/home/wsm/miniconda3/envs/pytorch/")
-
-;(setq lsp-clients-clangd-args '("--fallback-style=\"BasedOnStyle: Google\""))
-
-;(setq lsp-clients-clangd-library-directories '("/home/wsm/pytorch/niu_attn/cutlass/include",
-;					       "/home/wsm/pytorch/niu_attn/cutlass/tools/util/include"))
-					       
-(lsp-register-client
-    (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-                     :major-modes '(c-mode c++-mode cuda-mode)
-                     :remote? t
-                     :server-id 'clangd-remote))
-(lsp-register-client
-    (make-lsp-client :new-connection (lsp-tramp-connection "pylsp")
-                     :major-modes '(python-mode)
-                     :remote? t
-                     :server-id 'pylsp-remote))
-;(lsp-register-client
-; (make-lsp-client :new-connection (lsp-tramp-connection "pyright")
-;		  :major-modes '(python-mode)
-;		  :remote? t
-;		  :server-id 'pyright-remote))
-							
-
-
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      treemacs-space-between-root-nodes nil
-      company-idle-delay 0.0
-      company-minimum-prefix-length 1
-      lsp-idle-delay 0.1)  ;; clangd is fast
-
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (add-hook 'lsp-mode-hook
-            (lambda () (local-set-key (kbd "TAB") #'lsp-format-region)))
-  (add-hook 'lsp-mode-hook
-	    (lambda () (c-toggle-electric-state -1)))
-  (add-hook 'lsp-mode-hook
-	    (lambda () (progn (setq lsp-ui-doc-show-with-mouse nil)
-			      (setq lsp-ui-doc-show-with-cursor nil))))
-  (require 'dap-cpptools)
-  (yas-global-mode))
-
-;; sample `helm' configuration use https://github.com/emacs-helm/helm/ for details
-;;(helm-mode)
-;;(require 'helm-xref)
-;;(define-key global-map [remap find-file] #'helm-find-files)
-;;(define-key global-map [remap execute-extended-command] #'helm-M-x)
-;;(define-key global-map [remap switch-to-buffer] #'helm-mini)
-
 
 ;; consult
 ;; Example configuration for Consult
@@ -645,3 +577,23 @@ version 2022-06-09"
   (deft-use-filter-string-for-filename t)
   (deft-default-extension "org")
   (deft-directory org-roam-directory))
+
+;; eglot
+(use-package eglot
+  :bind ("C-M-i" . company-complete))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+	       '(
+		 '((c-mode c++-mode cuda-mode) . ("/home/ubuntu/clangd"))
+		 '(python-mode . ("pylsp"))))
+  (global-company-mode))
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'cuda-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)
+(setq eldoc-echo-area-use-multiline-p nil
+      company-idle-delay nil
+      company-minimum-prefix-length 1
+      gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      treemacs-space-between-root-nodes nil)
