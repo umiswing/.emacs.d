@@ -597,3 +597,5 @@ version 2022-06-09"
       gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil)
+;;which key
+(which-key-mode)
