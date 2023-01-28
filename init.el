@@ -241,6 +241,8 @@ Version 2015-10-01"
 (global-set-key (kbd "C-x C-r") #'consult-recent-file)
 (global-set-key (kbd "C-x C-M-r") 'umi-consult-recent-file-other-window)
 (global-set-key (kbd "C-c m p") 'emms-pause)
+(global-set-key (kbd "<XF86AudioPause>") 'emms-pause)
+(global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
 (global-set-key (kbd "C-c m b") 'emms-browser)
 
 (setq org-log-done t)
