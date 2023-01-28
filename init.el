@@ -240,6 +240,8 @@ Version 2015-10-01"
 (global-set-key (kbd "M-8") 'xah-goto-matching-bracket)
 (global-set-key (kbd "C-x C-r") #'consult-recent-file)
 (global-set-key (kbd "C-x C-M-r") 'umi-consult-recent-file-other-window)
+(global-set-key (kbd "C-c m p") 'emms-pause)
+(global-set-key (kbd "C-c m b") 'emms-browser)
 
 (setq org-log-done t)
 (setq org-agenda-files '("~/org/gtd/inbox.org"
@@ -421,10 +423,10 @@ Version 2015-10-01"
 
 (mapc #'disable-theme custom-enabled-themes)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/catppuccin-theme")
-(load-theme 'catppuccin t)
+;(load-theme 'catppuccin t)
 ;(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
 ;(catppuccin-reload)
-;(modus-themes-select 'modus-vivendi)
+(modus-themes-select 'modus-vivendi)
 ;(modus-themes-select 'modus-operandi)
 ;(load-theme 'vscode-dark-plus t)
 ;(load "~/.emacs.d/ef_themes.el")
@@ -446,13 +448,9 @@ Version 2015-10-01"
 	      (modus-themes-select 'modus-operandi)
 	      (put 'themes 'state 3))
 	  (if (equal (get 'themes 'state) 3)
-	      (progn
-		(load-theme 'vscode-dark-plus t)
-		(put 'themes 'state 4))
-	    (if (equal (get 'themes 'state) 4)
 		(progn
 		  (load-theme 'catppuccin t)
-		  (put 'themes 'state 0))))))))
+		  (put 'themes 'state 0)))))))
 ;; demap
 
 
@@ -599,3 +597,13 @@ version 2022-06-09"
       treemacs-space-between-root-nodes nil)
 ;;which key
 (which-key-mode)
+;;rainbow-delimiters
+(add-hook 'c-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'c++-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'python-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+;emms
+(emms-all)
+(setq emms-player-list '(emms-player-vlc)
+      emms-info-functions '(emms-info-native))
