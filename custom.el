@@ -92,6 +92,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "#000000" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 222 :width normal :foundry "JB" :family "JetBrains Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 218 :width normal :foundry "JB" :family "JetBrains Mono"))))
  '(line-number ((t (:inherit default :width normal))))
  '(mode-line ((t (:inherit modus-themes-ui-variable-pitch :box (:line-width 1 :color "#373b41") :weight normal)))))
