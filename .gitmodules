@@ -1,0 +1,15 @@
+[submodule "catppuccin-theme"]
+	path = catppuccin-theme
+	url = git@github.com:umiswing/emacs-catppuccin.git
+[submodule "delete-block"]
+	path = delete-block
+	url = https://github.com/manateelazycat/delete-block.git
+[submodule "duplicate-line"]
+	path = duplicate-line
+	url = https://github.com/manateelazycat/duplicate-line.git
+[submodule "move-text"]
+	path = move-text
+	url = https://github.com/manateelazycat/move-text.git
+[submodule "open-newline"]
+	path = open-newline
+	url = https://github.com/manateelazycat/open-newline.git
