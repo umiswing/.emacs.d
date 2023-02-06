@@ -576,7 +576,11 @@ version 2022-06-09"
 ;;highlight current line
 (global-hl-line-mode)
 ;; Spell checking on the fly
-;(add-hook 'org-mode-hook 'flyspell-mode)
+;;(add-hook 'org-mode-hook 'flyspell-mode)
+
+;; visual-line-mode
+;;(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
+(turn-on-visual-line-mode)
 ;; kbd
 (global-set-key (kbd "C-<up>") #'duplicate-line-or-region-above)
 (global-set-key (kbd "C-<down>") #'duplicate-line-or-region-below)
