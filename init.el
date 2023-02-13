@@ -22,10 +22,6 @@
   (interactive)
   (find-file "~/.emacs.d/init.el")
   )
-(defun someday()
-  (interactive)
-  (find-file "~/org/gtd/someday.org")
-  )
 (defun update()
   (interactive)
   (load-file "~/.emacs.d/init.el")
@@ -33,16 +29,6 @@
 ;; org mode
 (defun nolinum ()
   (display-line-numbers-mode -1)
-  )
-(defun blog()
-  (interactive)
-  (find-file "~/org/blog.org")
-  )
-(defun vimforward()
-  (interactive)
-  (subword-forward)
-  (subword-forward)
-  (subword-backward)
   )
 (defun scroll-up-one-line()
   "Scroll up one line."
@@ -204,64 +190,9 @@ Version 2015-10-01"
   (("C-," . dot-mode-execute)
    ("C-." . nil)))
 
-  
-;(global-dot-mode t)
-(beacon-mode 1)
-
-
-(setq org-log-done t)
-(setq org-agenda-files '("~/org/gtd/inbox.org"
-                         "~/org/gtd/gtd.org"
-                         "~/org/gtd/tickler.org"))
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/org/gtd/inbox.org" "Tasks")
-                               "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline "~/org/gtd/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
-(setq org-refile-targets '(("~/org/gtd/gtd.org" :maxlevel . 3)
-                           ("~/org/gtd/someday.org" :level . 1)
-                           ("~/org/gtd/tickler.org" :maxlevel . 2)))
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-(setq org-agenda-custom-commands 
-      '(("o" "paddle" tags-todo "paddle"
-         ((org-agenda-overriding-header "Paddle")
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-
-(defun my-org-agenda-skip-all-siblings-but-first ()
-  "Skip all but the first non-done entry."
-  (let (should-skip-entry)
-    (unless (org-current-is-todo)
-      (setq should-skip-entry t))
-    (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
-          (setq should-skip-entry t))))
-    (when should-skip-entry
-      (or (outline-next-heading)
-          (goto-char (point-max))))))
-		  
-(defun org-current-is-todo ()
-  (string= "TODO" (org-get-todo-state)))
-(add-hook 'org-mode-hook #'valign-mode)
-(add-hook 'org-mode-hook 'nolinum)
-
-;;(require 'color-theme-sanityinc-tomorrow)
-;;(color-theme-sanityinc-tomorrow-night)
-
 (setq url-proxy-services '(("http" . "127.0.0.1:7890")
 			   ("https" . "127.0.0.1:7890")))
 (setq socks-proxy "127.0.0.1:7891")
-(setq elfeed-curl-extra-arguments '("-x127.0.0.1:7890"))
-(setq elfeed-feeds '("https://protesilaos.com/master.xml"
-		     "http://xahlee.info/emacs/emacs/blog.xml"
-		     "http://xahlee.info/comp/blog.xml"))
-
-(use-package rime
-  :custom
-  (default-input-method "rime"))
-(setq rime-user-data-dir "~/.config/fcitx/rime")
-(setq rime-show-candidate 'posframe)
 
 ;; consult
 ;; Example configuration for Consult
@@ -387,36 +318,6 @@ Version 2015-10-01"
   (append xah-left-brackets xah-right-brackets)
   "List of left and right bracket chars. Each element is a string.")
 
-(mapc #'disable-theme custom-enabled-themes)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/catppuccin-theme")
-(load-theme 'catppuccin t)
-;(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
-;(catppuccin-reload)
-;(modus-themes-select 'modus-vivendi)
-;(modus-themes-select 'modus-operandi)
-;(load-theme 'vscode-dark-plus t)
-;(load "~/.emacs.d/ef_themes.el")
-;; toggle themes
-(defun themes()
-    (interactive)
-    ;; Disable all other themes to avoid awkward blending:
-    (mapc #'disable-theme custom-enabled-themes)
-    (if (or (equal (get 'themes 'state) 0) (equal (get 'themes 'state) nil))
-	(progn
-	  (load "~/.emacs.d/ef_themes.el")
-	  (put 'themes 'state 1))
-      (if (equal (get 'themes 'state) 1)
-	  (progn
-	    (modus-themes-select 'modus-vivendi)
-	    (put 'themes 'state 2))
-	(if (equal (get 'themes 'state) 2)
-	    (progn
-	      (modus-themes-select 'modus-operandi)
-	      (put 'themes 'state 3))
-	  (if (equal (get 'themes 'state) 3)
-		(progn
-		  (load-theme 'catppuccin t)
-		  (put 'themes 'state 0)))))))
 ;; demap
 
 
@@ -511,37 +412,6 @@ version 2022-06-09"
 ;; multiple-cursors
 (require 'multiple-cursors)
 
-; org-roam
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory "~/RoamNotes/")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today)
-	 :map org-mode-map
-	 ("C-M-i"   . completion-at-point))
-  :config
-    (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-    (org-roam-db-autosync-mode)
-  ;; If using org-roam-protocol
-    (require 'org-roam-protocol))
-;; deft
-(use-package deft
-  :after org
-  :bind
-  ("C-c n d" . deft)
-  :custom
-  (deft-recursive t)
-  (deft-use-filter-string-for-filename t)
-  (deft-default-extension "org")
-  (deft-directory org-roam-directory))
-
 ;; eglot
 (use-package eglot
   :bind ("C-M-i" . company-complete))
@@ -569,10 +439,6 @@ version 2022-06-09"
 (add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'python-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-;emms
-(emms-all)
-(setq emms-player-list '(emms-player-vlc)
-      emms-info-functions '(emms-info-native))
 ;;highlight current line
 (global-hl-line-mode)
 ;; Spell checking on the fly
@@ -596,9 +462,6 @@ version 2022-06-09"
 (global-set-key (kbd "C-k") #'open-newline-above)
 (global-set-key (kbd "M-f") 'block-forward)
 (global-set-key (kbd "M-b") 'block-backward)
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-M-f") #'scroll-other-window-down)
 (global-set-key (kbd "C-M-n") 'scroll-other-window-up-one-line)
 (global-set-key (kbd "C-M-p") 'scroll-other-window-down-one-line)
@@ -615,7 +478,6 @@ version 2022-06-09"
 (global-set-key (kbd "M-8") 'xah-goto-matching-bracket)
 (global-set-key (kbd "C-x C-r") #'consult-recent-file)
 (global-set-key (kbd "C-x C-M-r") 'umi-consult-recent-file-other-window)
-(global-set-key (kbd "C-c m p") 'emms-pause)
-(global-set-key (kbd "<XF86AudioPause>") 'emms-pause)
-(global-set-key (kbd "<XF86AudioPlay>") 'emms-pause)
-(global-set-key (kbd "C-c m b") 'emms-browser)
+(global-set-key (kbd "C-u") 'undo)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-M-d") 'kill-whole-line)
