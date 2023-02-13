@@ -440,10 +440,37 @@ version 2022-06-09"
 (add-hook 'python-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 ;;highlight current line
-(global-hl-line-mode)
+;;(global-hl-line-mode)
 ;; Spell checking on the fly
 ;;(add-hook 'org-mode-hook 'flyspell-mode)
 
+;;unicode
+;; UTF-8 support
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)    
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+;;term-mode
+(add-hook 'term-mode-hook
+   (lambda ()
+     ;; C-x is the prefix command, rather than C-c
+     (term-set-escape-char ?\C-x)
+     (define-key term-raw-map "\M-y" 'yank-pop)
+     (define-key term-raw-map "\M-w" 'kill-ring-save)
+     (define-key term-raw-map "\M-e" 'toggle-term)))
+(defun toggle-term()
+  (interactive)
+  (if (or (equal (get 'toggle-term 'state) 0) (equal (get 'toggle-term 'state) nil))
+	(progn
+	  (put 'toggle-term 'state 1)
+	  (split-window-below)
+	  (other-window 1)
+	  (term "/bin/bash"))
+      (if (equal (get 'toggle-term 'state) 1)
+	  (progn
+	    (put 'toggle-term 'state 0)
+	    (delete-window)))))
 ;; visual-line-mode
 ;;(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
 (turn-on-visual-line-mode)
@@ -481,3 +508,4 @@ version 2022-06-09"
 (global-set-key (kbd "C-u") 'undo)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-M-d") 'kill-whole-line)
+(global-set-key (kbd "M-e") 'toggle-term)
