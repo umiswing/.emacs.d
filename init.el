@@ -456,11 +456,12 @@ version 2022-06-09"
    (lambda ()
      ;; C-x is the prefix command, rather than C-c
      (term-set-escape-char ?\C-x)
-     (term-set-escape-char ?\M-x)
      (define-key term-raw-map (kbd "M-<RET>")  'toggle-term)
      (define-key term-raw-map (kbd "M-n") 'scroll-up-one-line)
      (define-key term-raw-map (kbd "M-p") 'scroll-down-one-line)
-     (define-key term-raw-map (kbd "C-s") 'isearch-forward)))
+     (define-key term-raw-map (kbd "C-s") 'isearch-forward)
+     (define-key term-raw-map (kbd "C-o") 'other-window)
+     (define-key term-raw-map (kbd "C-b") 'switch-to-buffer)))
 (defun toggle-term()
   (interactive)
   (if (or (equal (get 'toggle-term 'state) 0) (equal (get 'toggle-term 'state) nil))
@@ -468,7 +469,7 @@ version 2022-06-09"
 	  (put 'toggle-term 'state 1)
 	  (split-window-below)
 	  (other-window 1)
-	  (term "/bin/bash"))
+	  (term "/usr/bin/fish"))
       (if (equal (get 'toggle-term 'state) 1)
 	  (progn
 	    (put 'toggle-term 'state 0)
