@@ -421,7 +421,7 @@ version 2022-06-09"
   (add-to-list 'eglot-server-programs
 	       '(c++-mode . ("clangd")))
   (add-to-list 'eglot-server-programs
-		 '(cuda-mode . ("clangd")))
+	       '(cuda-mode . ("clangd")))
   (add-to-list 'eglot-server-programs
 	       '(python-mode . ("pylsp")))
   (global-company-mode))
