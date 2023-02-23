@@ -443,8 +443,7 @@ version 2022-06-09"
 (add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'python-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-;;highlight current line
-;;(global-hl-line-mode)
+
 ;; Spell checking on the fly
 ;;(add-hook 'org-mode-hook 'flyspell-mode)
 
@@ -482,6 +481,14 @@ version 2022-06-09"
 ;; visual-line-mode
 ;;(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
 (turn-on-visual-line-mode)
+
+;; themes
+(mapc #'disable-theme custom-enabled-themes)
+;(modus-themes-select 'modus-vivendi)
+(modus-themes-select 'modus-operandi)
+;;highlight current line
+(global-hl-line-mode)
+(add-hook 'term-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
 ;; kbd
 (global-set-key (kbd "C-<up>") #'duplicate-line-or-region-above)
 (global-set-key (kbd "C-<down>") #'duplicate-line-or-region-below)
