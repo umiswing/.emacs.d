@@ -325,7 +325,7 @@ Version 2015-10-01"
 
 ;; diff-hl
 
-(global-diff-hl-mode)
+(diff-hl-margin-mode)
 
 ;; others
 ;; make backup to a designated dir, mirroring the full path
@@ -414,7 +414,7 @@ version 2022-06-09"
 
 ;; eglot
 (use-package eglot
-  :bind ("C-M-i" . company-complete))
+  :bind (("C-M-i" . company-complete)))
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
 	       '(c-mode . ("clangd")))
@@ -429,6 +429,7 @@ version 2022-06-09"
 (add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'cuda-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
+(setq c-syntactic-indentation nil)
 (setq eldoc-echo-area-use-multiline-p nil
       company-idle-delay nil
       company-minimum-prefix-length 1
@@ -484,7 +485,7 @@ version 2022-06-09"
 
 ;; themes
 (mapc #'disable-theme custom-enabled-themes)
-;(modus-themes-select 'modus-vivendi)
+;;(modus-themes-select 'modus-vivendi)
 (modus-themes-select 'modus-operandi)
 ;;highlight current line
 (global-hl-line-mode)
