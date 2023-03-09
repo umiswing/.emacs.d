@@ -324,8 +324,11 @@ Version 2015-10-01"
 ;; git-gutter
 
 ;; diff-hl
-
-(diff-hl-margin-mode)
+;;(global-diff-hl-mode)
+;;(diff-hl-margin-mode)
+(defun enable-diff()
+  (global-diff-hl-mode)
+  (diff-hl-margin-mode))
 
 ;; others
 ;; make backup to a designated dir, mirroring the full path
@@ -444,6 +447,12 @@ version 2022-06-09"
 (add-hook 'cuda-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'python-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+;; diff-hl
+(add-hook 'c-mode-hook 'enable-diff)
+(add-hook 'c++-mode-hook 'enable-diff)
+(add-hook 'cuda-mode-hook 'enable-diff)
+(add-hook 'python-mode-hook 'enable-diff)
+(add-hook 'emacs-lisp-mode-hook 'enable-diff)
 
 ;; Spell checking on the fly
 ;;(add-hook 'org-mode-hook 'flyspell-mode)
