@@ -494,8 +494,14 @@ version 2022-06-09"
 
 ;; themes
 (mapc #'disable-theme custom-enabled-themes)
+(add-to-list 'load-path "~/.emacs.d/doom-themes")
+(require 'doom-themes)
+(setq doom-themes-enable-bold t
+      doom-themes-enable-italic t)
+(load-theme 'doom-vibrant t)
 ;;(modus-themes-select 'modus-vivendi)
-(modus-themes-select 'modus-operandi)
+;;(modus-themes-select 'modus-operandi)
+
 ;;highlight current line
 (global-hl-line-mode)
 (add-hook 'term-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
