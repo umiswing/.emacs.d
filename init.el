@@ -185,6 +185,8 @@ Version 2015-10-01"
 (require 'move-text)
 (add-to-list 'load-path "~/.emacs.d/duplicate-line")
 (require 'duplicate-line)
+(add-to-list 'load-path "~/.emacs.d")
+(require 'cmake-mode)
 (use-package dot-mode
   :bind
   (("C-," . dot-mode-execute)
@@ -496,8 +498,6 @@ version 2022-06-09"
 (mapc #'disable-theme custom-enabled-themes)
 (add-to-list 'load-path "~/.emacs.d/doom-themes")
 (require 'doom-themes)
-(setq doom-themes-enable-bold t
-      doom-themes-enable-italic t)
 (load-theme 'doom-vibrant t)
 ;;(modus-themes-select 'modus-vivendi)
 ;;(modus-themes-select 'modus-operandi)
