@@ -185,7 +185,7 @@ Version 2015-10-01"
 (require 'move-text)
 (add-to-list 'load-path "~/.emacs.d/duplicate-line")
 (require 'duplicate-line)
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/cmake-mode")
 (require 'cmake-mode)
 (use-package dot-mode
   :bind
