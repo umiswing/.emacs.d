@@ -540,3 +540,5 @@ version 2022-06-09"
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-M-d") 'kill-whole-line)
 (global-set-key (kbd "M-<RET>") 'toggle-term)
+(global-set-key (kbd "M-c") 'term-char-mode)
+(global-set-key (kbd "M-l") 'term-line-mode)
