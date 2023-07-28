@@ -417,30 +417,6 @@ version 2022-06-09"
 ;; multiple-cursors
 (require 'multiple-cursors)
 
-;; eglot
-(use-package eglot
-  :bind (("C-M-i" . company-complete)))
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-	       '(c-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs
-	       '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs
-	       '(cuda-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs
-	       '(python-mode . ("pylsp")))
-  (global-company-mode))
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'cuda-mode-hook 'eglot-ensure)
-(add-hook 'python-mode-hook 'eglot-ensure)
-(setq c-syntactic-indentation nil)
-(setq eldoc-echo-area-use-multiline-p nil
-      company-idle-delay nil
-      company-minimum-prefix-length 1
-      gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      treemacs-space-between-root-nodes nil)
 ;;which key
 (which-key-mode)
 ;;rainbow-delimiters
