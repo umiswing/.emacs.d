@@ -417,6 +417,9 @@ version 2022-06-09"
 ;; multiple-cursors
 (require 'multiple-cursors)
 
+;; important for coding
+(setq electric-indent-mode nil)
+
 ;;which key
 (which-key-mode)
 ;;rainbow-delimiters
@@ -474,7 +477,7 @@ version 2022-06-09"
 (mapc #'disable-theme custom-enabled-themes)
 (add-to-list 'load-path "~/.emacs.d/doom-themes")
 (require 'doom-themes)
-(load-theme 'doom-vibrant t)
+;;(load-theme 'doom-vibrant t)
 ;;(modus-themes-select 'modus-vivendi)
 ;;(modus-themes-select 'modus-operandi)
 
