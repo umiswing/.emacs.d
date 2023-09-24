@@ -473,17 +473,34 @@ version 2022-06-09"
 ;;(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
 (turn-on-visual-line-mode)
 
+;; avy
+(add-to-list 'load-path "~/.emacs.d/avy")
+(require 'avy)
+
 ;; themes
 (mapc #'disable-theme custom-enabled-themes)
 (add-to-list 'load-path "~/.emacs.d/doom-themes")
+(add-to-list 'load-path "~/.emacs.d/cyberpunk-theme")
+(add-to-list 'load-path "~/.emacs.d/emacs-abyss-theme/")
 (require 'doom-themes)
-;;(load-theme 'doom-vibrant t)
+(require 'cyberpunk-theme)
+(require 'abyss-theme)
+;; (load-theme 'doom-vibrant t)
+;; (load-theme 'cyberpunk t)
+(load-theme 'abyss t)
 ;;(modus-themes-select 'modus-vivendi)
 ;;(modus-themes-select 'modus-operandi)
 
 ;;highlight current line
-(global-hl-line-mode)
+;; (global-hl-line-mode)
 (add-hook 'term-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+
+;; sort-tab
+;; I need to debug it for grep buffer
+;; (add-to-list 'load-path "~/.emacs.d/sort-tab")
+;; (require 'sort-tab)
+;; (sort-tab-mode 1)
+
 ;; kbd
 (global-set-key (kbd "C-<up>") #'duplicate-line-or-region-above)
 (global-set-key (kbd "C-<down>") #'duplicate-line-or-region-below)
@@ -519,5 +536,10 @@ version 2022-06-09"
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-M-d") 'kill-whole-line)
 (global-set-key (kbd "M-<RET>") 'toggle-term)
-(global-set-key (kbd "M-c") 'term-char-mode)
-(global-set-key (kbd "M-l") 'term-line-mode)
+(global-set-key (kbd "M-j") 'avy-goto-char-2)
+;; (global-set-key (kbd "M-h") 'sort-tab-select-prev-tab)
+;; (global-set-key (kbd "M-l") 'sort-tab-select-next-tab)
+(global-set-key (kbd "M-h") 'previous-buffer)
+(global-set-key (kbd "M-l") 'next-buffer)
+;; (global-set-key (kbd "M-c") 'term-char-mode)
+;; (global-set-key (kbd "M-l") 'term-line-mode)
