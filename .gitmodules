@@ -1,0 +1,3 @@
+[submodule "avy"]
+	path = avy
+	url = https://github.com/abo-abo/avy.git
