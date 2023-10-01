@@ -12,6 +12,10 @@
 
 (set-face-attribute 'default nil :height 160)
 
+;; diff-hl
+(add-to-list 'load-path "~/.emacs.d/diff-hl")
+(require 'diff-hl)
+(require 'diff-hl-margin)
 (global-diff-hl-mode)
 (diff-hl-margin-mode)
 
