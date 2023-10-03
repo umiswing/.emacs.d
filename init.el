@@ -19,6 +19,11 @@
 (global-diff-hl-mode)
 (diff-hl-margin-mode)
 
+;; cuda-mode
+(add-to-list 'load-path "~/.emacs.d/cuda-mode")
+(autoload 'cuda-mode "cuda-mode.el")
+(add-to-list 'auto-mode-alist '("\\.cuh?\\'" . cuda-mode))
+
 (setq auto-save-default nil)
 (setq auto-save-visited-mode nil)
 
