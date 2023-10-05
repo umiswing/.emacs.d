@@ -1,16 +1,6 @@
-;; Don't show the splash screen
-(setq inhibit-startup-message t)  ; Comment at end of line!
-
-;; Turn off some unneeded UI elements
-(menu-bar-mode -1)  ; Leave this one on if you're a beginner!
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
 ;; avy
 (add-to-list 'load-path "~/.emacs.d/avy")
 (require 'avy)
-
-(set-face-attribute 'default nil :height 160)
 
 ;; diff-hl
 (add-to-list 'load-path "~/.emacs.d/diff-hl")
@@ -24,8 +14,33 @@
 (autoload 'cuda-mode "cuda-mode.el")
 (add-to-list 'auto-mode-alist '("\\.cuh?\\'" . cuda-mode))
 
+;; org-mode
+(setq org-agenda-files '("~/org/gtd/inbox.org"
+                         "~/org/gtd/gtd.org"))
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file "~/org/gtd/inbox.org")
+                               "* TODO %?\nOPENED: %T")))
+(setq org-refile-targets '(("~/org/gtd/gtd.org" :level . 1)
+                           ("~/org/gtd/someday.org" :level . 1)))
+(setq org-log-done 'time)
+(advice-add 'org-refile :after
+        (lambda (&rest _)
+          (org-save-all-org-buffers)))
+
+;; built-in config
+
+;; Don't show the splash screen
+(setq inhibit-startup-message t)  ; Comment at end of line!
+
+;; Turn off some unneeded UI elements
+(menu-bar-mode -1)  ; Leave this one on if you're a beginner!
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(set-face-attribute 'default nil :height 160)
 (setq auto-save-default nil)
 (setq auto-save-visited-mode nil)
+(setq make-backup-files nil)
 
 (setq-default indent-tabs-mode nil)
 
@@ -46,3 +61,5 @@
 (global-set-key (kbd "M-p") 'scroll-down-one-line)
 (global-set-key (kbd "C-'") 'avy-goto-char)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
