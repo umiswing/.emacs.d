@@ -27,6 +27,16 @@
         (lambda (&rest _)
           (org-save-all-org-buffers)))
 
+;; magit
+;; Installing from melpa from melpa will generate custom varibale automatically,
+;; which is not elegant. However, it's very unconvient to install magit manually.
+;; Run following commands to install from melpa the first time you load init.el
+;; M-x package-refresh-contents RET
+;; M-x package-install RET magit RET
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
 ;; built-in config
 
 ;; Don't show the splash screen
