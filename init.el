@@ -16,16 +16,20 @@
 
 ;; org-mode
 (setq org-agenda-files '("~/org/gtd/inbox.org"
+                         "~/org/gtd/life_goals.org"
                          "~/org/gtd/gtd.org"))
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file "~/org/gtd/inbox.org")
-                               "* TODO %?\nOPENED: %T")))
+                               "* TODO %?")))
 (setq org-refile-targets '(("~/org/gtd/gtd.org" :level . 1)
-                           ("~/org/gtd/someday.org" :level . 1)))
+                           ("~/org/gtd/someday.org" :level . 1)
+                           ("~/org/gtd/life_goals.org" :level . 2)))
 (setq org-log-done 'time)
 (advice-add 'org-refile :after
         (lambda (&rest _)
           (org-save-all-org-buffers)))
+
+(eval-after-load "org" '(add-to-list 'org-modules 'org-habit))
 
 ;; magit
 ;; Installing from melpa from melpa will generate custom varibale automatically,
