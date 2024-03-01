@@ -1,7 +1,3 @@
-;; avy
-(add-to-list 'load-path "~/.emacs.d/avy")
-(require 'avy)
-
 ;; diff-hl
 (add-to-list 'load-path "~/.emacs.d/diff-hl")
 (require 'diff-hl)
@@ -9,37 +5,13 @@
 (global-diff-hl-mode)
 (diff-hl-margin-mode)
 
+;; auto indent
+(setq electric-indent-mode nil)
+
 ;; cuda-mode
 (add-to-list 'load-path "~/.emacs.d/cuda-mode")
 (autoload 'cuda-mode "cuda-mode.el")
 (add-to-list 'auto-mode-alist '("\\.cuh?\\'" . cuda-mode))
-
-;; org-mode
-(setq org-agenda-files '("~/org/gtd/inbox.org"
-                         "~/org/gtd/life_goals.org"
-                         "~/org/gtd/gtd.org"))
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file "~/org/gtd/inbox.org")
-                               "* TODO %?")))
-(setq org-refile-targets '(("~/org/gtd/gtd.org" :level . 1)
-                           ("~/org/gtd/someday.org" :level . 1)
-                           ("~/org/gtd/life_goals.org" :level . 2)))
-(setq org-log-done 'time)
-(advice-add 'org-refile :after
-        (lambda (&rest _)
-          (org-save-all-org-buffers)))
-
-(eval-after-load "org" '(add-to-list 'org-modules 'org-habit))
-
-;; magit
-;; Installing from melpa from melpa will generate custom varibale automatically,
-;; which is not elegant. However, it's very unconvient to install magit manually.
-;; Run following commands to install from melpa the first time you load init.el
-;; M-x package-refresh-contents RET
-;; M-x package-install RET magit RET
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
 
 ;; built-in config
 
@@ -73,7 +45,4 @@
 
 (global-set-key (kbd "M-n") 'scroll-up-one-line)
 (global-set-key (kbd "M-p") 'scroll-down-one-line)
-(global-set-key (kbd "C-'") 'avy-goto-char)
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c r") 'recentf-open-files)
